@@ -11,20 +11,12 @@
     *{margin:0;padding:0;box-sizing:border-box}
     html,body{height:100%;width:100%;font-family:'Playfair Display',serif;background:#000;overflow:hidden;position:relative}
 
-    /* 🎥 video de fondo (archivo local) */
+    /* 🎥 video de fondo */
     .video-fondo{
-      position:fixed;
-      inset:0;
-      width:100%;
-      height:100%;
-      z-index:-2;
-      overflow:hidden;
-      pointer-events:none;
+      position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none
     }
     .video-fondo video{
-      width:100%;
-      height:100%;
-      object-fit:cover;   /* llena la pantalla manteniendo proporción */
+      width:100%;height:100%;object-fit:cover
     }
 
     /* ✨ partículas */
@@ -33,13 +25,11 @@
     /* ⏳ contador a la derecha */
     .contenedor{
       display:flex;justify-content:flex-end;align-items:center;
-      height:100%;width:100%;padding-right:5%;
+      height:100%;width:100%;padding-right:5%
     }
     .lado-derecho{
-      width:50%;
-      display:flex;flex-direction:column;align-items:center;
-      gap:.5rem;text-align:center;animation:fadeIn 2s ease-out forwards;
-      color:gold;
+      width:50%;display:flex;flex-direction:column;align-items:center;
+      gap:.5rem;text-align:center;animation:fadeIn 2s ease-out forwards;color:gold
     }
 
     /* texto */
@@ -62,6 +52,11 @@
     @keyframes shimmer{0%{text-shadow:0 0 10px #fff8dc}50%{text-shadow:0 0 20px #ffd700}100%{text-shadow:0 0 10px #fff8dc}}
     @keyframes fadeIn{0%{opacity:0;transform:translateY(-60%)}100%{opacity:1;transform:translateY(0)}}
 
+    /* widget Like Fountain */
+    .like-fountain{
+      position:fixed;inset:0;z-index:100;pointer-events:none   /* sobre todo y sin bloquear clics */
+    }
+
     /* responsive */
     @media(max-width:768px){
       #numero-dias{font-size:7rem}
@@ -73,9 +68,11 @@
 </head>
 <body>
 
-  <!-- 🎥 fondo de video local -->
+  <!-- 🎥 video de fondo local -->
   <div class="video-fondo">
-    <video src="video2.webm" autoplay muted loop playsinline></video>
+    <!-- Usa ruta relativa si el HTML y el video están juntos; si lo sirves desde GitHub Pages en otro directorio,
+         cámbialo a /ruta/video2.webm o al raw.githubusercontent URL. -->
+    <video src="./video2.webm" autoplay muted loop playsinline></video>
   </div>
 
   <!-- ✨ partículas -->
@@ -89,6 +86,14 @@
       <span id="dias-palabra">DÍAS</span>
       <span id="horas">00:00:00</span>
     </div>
+  </div>
+
+  <!-- 💧 Like Fountain overlay (transparente) -->
+  <div class="like-fountain">
+    <iframe
+      src="https://tikfinity.zerody.one/widget/likefountain?cid=615689"
+      width="100%" height="100%" frameborder="0" allowfullscreen>
+    </iframe>
   </div>
 
   <script>
