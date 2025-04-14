@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cuenta Regresiva Gala</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.1/tsparticles.bundle.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background-color: black;
+      font-family: 'Cinzel Decorative', serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #video-fondo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      opacity: 0.25;
+    }
+
+    #tsparticles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 2;
+      width: 100px;
+    }
+
+    .contador {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+      color: gold;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+      animation: fadeIn 3s ease-out forwards;
+    }
+
+    .contador div {
+      margin: 20px 0;
+      font-size: 3rem;
+    }
+
+    .dorado {
+      background: linear-gradient(to right, #ffd700, #ffcc00, #ffdb58, #fff8dc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: bold;
+      animation: shimmer 4s infinite;
+    }
+
+    .bienvenida {
+      color: white;
+      font-size: 1.3rem;
+      margin-top: 15px;
+      text-shadow: 0 0 5px rgba(255,255,255,0.6);
+    }
+
+    audio {
+      display: none;
+    }
+
+    @keyframes shimmer {
+      0% { text-shadow: 0 0 10px #fff8dc; }
+      50% { text-shadow: 0 0 20px #ffd700; }
+      100% { text-shadow: 0 0 10px #fff8dc; }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(-60%); }
+      100% { opacity: 1; transform: translateY(-50%); }
+    }
+
+    @media screen and (max-width: 768px) {
+      .contador div {
+        font-size: 2rem;
+      }
+
+      .logo {
+        width: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🎥 Video de fondo (actívalo cuando tengas tu video) -->
+  <!--
+  <video id="video-fondo" autoplay loop muted>
+    <source src="video-fondo.mp4" type="video/mp4">
+  </video>
+  -->
+
+  <!-- 🎵 Música de fondo (instrumental elegante) -->
+  <audio autoplay loop>
+    <source src="musica-fondo.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+
+  <!-- ✨ Partículas doradas -->
+  <div id="tsparticles"></div>
+
+  <!-- 🖼️ Logo o emblema -->
+  <!-- <img src="logo.png" class="logo" alt="Logo"> -->
+
+  <!-- ⏳ Contador -->
+  <div class="contador">
+    <div class="dorado">Faltan</div>
+    <div id="dias" class="dorado">(aquí van los días)</div>
+    <div id="horas" class="dorado">(aquí las horas, min y seg)</div>
+    <div class="bienvenida">¡Prepárate para vivir una noche inolvidable!</div>
+  </div>
+
+  <!-- 🧠 Script del contador -->
+  <script>
+    function actualizarContador() {
+      const ahora = new Date().toLocaleString("en-US", {timeZone: "America/Mexico_City"});
+      const ahoraFecha = new Date(ahora);
+      const fechaLimite = new Date("2025-04-26T20:00:00-06:00");
+      const diferencia = fechaLimite - ahoraFecha;
+
+      if (diferencia <= 0) {
+        document.getElementById("dias").innerText = "¡El evento ha comenzado!";
+        document.getElementById("horas").innerText = "";
+        return;
+      }
+
+      const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+      const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+      document.getElementById("dias").innerText = `(${dias} días)`;
+      document.getElementById("horas").innerText = `(${horas} horas, ${minutos} min y ${segundos} seg)`;
+    }
+
+    setInterval(actualizarContador, 1000);
+    actualizarContador();
+  </script>
+
+  <!-- ✨ Script partículas -->
+  <script>
+    tsParticles.load("tsparticles", {
+      fullScreen: { enable: false },
+      particles: {
+        number: { value: 60 },
+        color: { value: "#ffd700" },
+        shape: { type: "circle" },
+        opacity: { value: 0.8 },
+        size: { value: 3 },
+        move: {
+          enable: true,
+          speed: 0.5,
+          direction: "top",
+          outModes: "out"
+        }
+      },
+      interactivity: {
+        events: {
+          onHover: { enable: true, mode: "repulse" },
+          resize: true
+        },
+        modes: {
+          repulse: { distance: 100, duration: 0.4 }
+        }
+      },
+      background: {
+        color: "transparent"
+      }
+    });
+  </script>
+
+</body>
+</html>
