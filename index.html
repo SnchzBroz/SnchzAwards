@@ -4,124 +4,43 @@
   <meta charset="UTF-8">
   <title>Cuenta Regresiva Gala</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <!-- tsParticles -->
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.1/tsparticles.bundle.min.js" defer></script>
 
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
+    html,body{height:100%;width:100%;font-family:'Playfair Display',serif;background:#000;overflow:hidden;position:relative}
 
-    html,body{
-      height:100%;
-      width:100%;
-      font-family:'Playfair Display',serif;
-      background:#000;
-      overflow:hidden;
-      position:relative;
-      color:gold;
-    }
+    /* 🎥 video de fondo */
+    .video-fondo{position:fixed;inset:0;width:100vw;height:100vh;z-index:-2;pointer-events:none;overflow:hidden}
+    .video-fondo iframe{position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-width:177.77vh;min-height:100vh;transform:translate(-50%,-50%)}
 
-    /* 🎥 Video de fondo */
-    .video-fondo{
-      position:fixed;
-      inset:0;
-      width:100vw;
-      height:100vh;
-      z-index:-2;
-      pointer-events:none;
-      overflow:hidden;
-    }
-    .video-fondo iframe{
-      position:absolute;
-      top:50%;left:50%;
-      width:100vw;
-      height:56.25vw;          /* 16 : 9 */
-      min-width:177.77vh;
-      min-height:100vh;
-      transform:translate(-50%,-50%);
-    }
+    /* ✨ partículas */
+    #tsparticles{position:absolute;inset:0;z-index:-1}
 
-    /* ✨ Partículas */
-    #tsparticles{
-      position:absolute;
-      inset:0;
-      z-index:-1;
-    }
+    /* ⏳ contador a la derecha */
+    .contenedor{display:flex;justify-content:flex-end;align-items:center;height:100%;width:100%;padding-right:5%}
+    .lado-derecho{width:50%;display:flex;flex-direction:column;align-items:center;gap:.5rem;text-align:center;animation:fadeIn 2s ease-out forwards;color:gold}
 
-    /* ⏳ Contenedor principal */
-    .contenedor{
-      display:flex;
-      justify-content:flex-end; /* Empuja el contenido a la derecha */
-      align-items:center;
-      height:100%;
-      width:100%;
-      padding-right:5%;
-    }
-    .lado-derecho{
-      width:50%;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:.5rem;
-      text-align:center;
-      animation:fadeIn 2s ease-out forwards;
-    }
-
-    /* “Faltan # Días” */
-    .frase{
-      display:flex;
-      align-items:baseline;
-      justify-content:center;
-      flex-wrap:wrap;
-      gap:1rem;
-    }
-    #faltan,#dias-palabra{
-      font-size:5rem;
-      letter-spacing:2px;
-      font-weight:700;
+    /* estilos texto */
+    #faltan,#dias-palabra,#horas{
       background:linear-gradient(to right,#ffd700,#ffcc00,#ffdb58,#fff8dc);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      animation:shimmer 4s infinite;
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      font-weight:700;letter-spacing:2px;animation:shimmer 4s infinite
     }
-    #numero-dias{
-      font-size:12rem;
-      font-weight:700;
-      line-height:1;
-      background:linear-gradient(to right,#ffd700,#ffcc00,#ffdb58,#fff8dc);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      text-shadow:0 0 30px rgba(255,215,0,.8);
-    }
+    #faltan{font-size:5rem}
+    #numero-dias{font-size:12rem;font-weight:700;line-height:1;background:linear-gradient(to right,#ffd700,#ffcc00,#ffdb58,#fff8dc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,.8)}
+    #dias-palabra{font-size:3rem}
+    #horas{font-size:4rem;text-shadow:0 0 10px rgba(255,215,0,.8)}
 
-    /* Reloj HH:MM:SS */
-    #horas{
-      font-size:4rem;
-      letter-spacing:2px;
-      background:linear-gradient(to right,#ffd700,#ffcc00,#ffdb58,#fff8dc);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      font-weight:700;
-      animation:shimmer 4s infinite;
-      text-shadow:0 0 10px rgba(255,215,0,.8);
-    }
+    /* animaciones */
+    @keyframes shimmer{0%{text-shadow:0 0 10px #fff8dc}50%{text-shadow:0 0 20px #ffd700}100%{text-shadow:0 0 10px #fff8dc}}
+    @keyframes fadeIn{0%{opacity:0;transform:translateY(-60%)}100%{opacity:1;transform:translateY(0)}}
 
-    /* Animaciones */
-    @keyframes shimmer{
-      0%{text-shadow:0 0 10px #fff8dc}
-      50%{text-shadow:0 0 20px #ffd700}
-      100%{text-shadow:0 0 10px #fff8dc}
-    }
-    @keyframes fadeIn{
-      0%{opacity:0;transform:translateY(-60%)}
-      100%{opacity:1;transform:translateY(0)}
-    }
-
-    /* Responsive */
+    /* responsive */
     @media(max-width:768px){
       #numero-dias{font-size:7rem}
-      #faltan,#dias-palabra{font-size:3rem}
+      #faltan{font-size:3rem}
       #horas{font-size:2rem}
       .lado-derecho{width:100%;padding-right:0}
     }
@@ -129,76 +48,57 @@
 </head>
 <body>
 
-  <!-- 🎥 Fondo de video YouTube -->
+  <!-- 🎥 fondo de video (cambia el ID por un video embeddable) -->
   <div class="video-fondo">
     <iframe
       src="https://www.youtube.com/embed/Ag4ERC-DvhY?autoplay=1&mute=1&controls=0&loop=1&playlist=Ag4ERC-DvhY&modestbranding=1&showinfo=0&rel=0&playsinline=1"
       frameborder="0"
       allow="autoplay; encrypted-media"
-      title="Video de fondo">
+      title="Video de fondo">
     </iframe>
   </div>
 
-  <!-- ✨ Partículas -->
+  <!-- ✨ partículas -->
   <div id="tsparticles"></div>
 
-  <!-- ⏳ Contador -->
+  <!-- ⏳ contador -->
   <div class="contenedor">
     <div class="lado-derecho">
-      <div class="frase">
-        <span id="faltan">FALTAN</span>
-        <span id="numero-dias">0</span>
-        <span id="dias-palabra">DÍAS</span>
-      </div>
-      <div id="horas">00:00:00</div>
+      <span id="faltan">FALTAN</span>
+      <span id="numero-dias">0</span>
+      <span id="dias-palabra">DÍAS</span>
+      <span id="horas">00:00:00</span>
     </div>
   </div>
 
-  <!-- JS: contador -->
   <script>
     function actualizarContador(){
       const ahora = new Date().toLocaleString("en-US",{timeZone:"America/Mexico_City"});
-      const ahoraFecha = new Date(ahora);
       const fechaLimite = new Date("2025-04-26T20:00:00-06:00");
-      const diferencia = fechaLimite - ahoraFecha;
+      const diff = fechaLimite - new Date(ahora);
 
-      if(diferencia<=0){
-        document.getElementById("faltan").textContent = "";
-        document.getElementById("numero-dias").textContent = "¡El evento ha comenzado!";
-        document.getElementById("dias-palabra").textContent = "";
-        document.getElementById("horas").textContent = "";
+      if(diff<=0){
+        document.getElementById("faltan").textContent="";
+        document.getElementById("numero-dias").textContent="¡El evento ha comenzado!";
+        document.getElementById("dias-palabra").textContent="";
+        document.getElementById("horas").textContent="";
         return;
       }
+      const d=Math.floor(diff/86400000),
+            h=Math.floor(diff%86400000/3600000),
+            m=Math.floor(diff%3600000/60000),
+            s=Math.floor(diff%60000/1000);
 
-      const dias     = Math.floor(diferencia / 86400000);
-      const horas    = Math.floor((diferencia % 86400000) / 3600000);
-      const minutos  = Math.floor((diferencia % 3600000) / 60000);
-      const segundos = Math.floor((diferencia % 60000) / 1000);
-
-      document.getElementById("numero-dias").textContent = dias;
-      document.getElementById("horas").textContent =
-        `${String(horas).padStart(2,"0")}:${String(minutos).padStart(2,"0")}:${String(segundos).padStart(2,"0")}`;
+      document.getElementById("numero-dias").textContent=d;
+      document.getElementById("horas").textContent=
+        `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
     }
-    setInterval(actualizarContador,1000);
-    actualizarContador();
-  </script>
+    setInterval(actualizarContador,1000);actualizarContador();
 
-  <!-- JS: partículas -->
-  <script>
     tsParticles.load("tsparticles",{
       fullScreen:{enable:false},
-      particles:{
-        number:{value:60},
-        color:{value:"#ffd700"},
-        shape:{type:"circle"},
-        opacity:{value:0.8},
-        size:{value:3},
-        move:{enable:true,speed:0.5,direction:"top",outModes:"out"}
-      },
-      interactivity:{
-        events:{onHover:{enable:true,mode:"repulse"},resize:true},
-        modes:{repulse:{distance:100,duration:0.4}}
-      },
+      particles:{number:{value:60},color:{value:"#ffd700"},shape:{type:"circle"},opacity:{value:0.8},size:{value:3},move:{enable:true,speed:0.5,direction:"top",outModes:"out"}},
+      interactivity:{events:{onHover:{enable:true,mode:"repulse"},resize:true},modes:{repulse:{distance:100,duration:0.4}}},
       background:{color:"transparent"}
     });
   </script>
