@@ -12,25 +12,20 @@
     html,body{height:100%;width:100%;font-family:'Playfair Display',serif;background:#000;overflow:hidden;position:relative}
 
     /* 🎥 video de fondo */
-    .video-fondo{
-      position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none
-    }
+    .video-fondo{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
     .video-fondo video{
-      width:100%;height:100%;object-fit:cover   /* llena la pantalla manteniendo proporción */
+      position:absolute;top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      min-width:100%;min-height:100%;
+      width:auto;height:auto;
     }
 
     /* ✨ partículas */
     #tsparticles{position:absolute;inset:0;z-index:-1}
 
     /* ⏳ contador a la derecha */
-    .contenedor{
-      display:flex;justify-content:flex-end;align-items:center;
-      height:100%;width:100%;padding-right:5%
-    }
-    .lado-derecho{
-      width:50%;display:flex;flex-direction:column;align-items:center;
-      gap:.5rem;text-align:center;animation:fadeIn 2s ease-out forwards;color:gold
-    }
+    .contenedor{display:flex;justify-content:flex-end;align-items:center;height:100%;width:100%;padding-right:5%}
+    .lado-derecho{width:50%;display:flex;flex-direction:column;align-items:center;gap:.5rem;text-align:center;animation:fadeIn 2s ease-out forwards;color:gold}
 
     /* texto */
     #faltan,#dias-palabra,#horas{
@@ -39,12 +34,7 @@
       font-weight:700;letter-spacing:2px;animation:shimmer 4s infinite
     }
     #faltan{font-size:5rem}
-    #numero-dias{
-      font-size:12rem;font-weight:700;line-height:1;
-      background:linear-gradient(to right,#ffd700,#ffcc00,#ffdb58,#fff8dc);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-      text-shadow:0 0 30px rgba(255,215,0,.8)
-    }
+    #numero-dias{font-size:12rem;font-weight:700;line-height:1;background:linear-gradient(to right,#ffd700,#ffcc00,#ffdb58,#fff8dc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,.8)}
     #dias-palabra{font-size:3rem}
     #horas{font-size:4rem;text-shadow:0 0 10px rgba(255,215,0,.8)}
 
@@ -53,9 +43,7 @@
     @keyframes fadeIn{0%{opacity:0;transform:translateY(-60%)}100%{opacity:1;transform:translateY(0)}}
 
     /* widget Like Fountain */
-    .like-fountain{
-      position:fixed;inset:0;z-index:100;pointer-events:none
-    }
+    .like-fountain{position:fixed;inset:0;z-index:100;pointer-events:none}
 
     /* responsive */
     @media(max-width:768px){
@@ -68,9 +56,9 @@
 </head>
 <body>
 
-  <!-- 🎥 fondo de video local -->
+  <!-- 🎥 fondo de video remoto -->
   <div class="video-fondo">
-    <video src="./fondo3.mp4" autoplay muted loop playsinline></video>
+    <video autoplay muted loop playsinline preload="auto" src="https://github.com/SnchzBroz/SnchzAwards/raw/main/fondo3.mp4"></video>
   </div>
 
   <!-- ✨ partículas -->
@@ -88,10 +76,7 @@
 
   <!-- 💧 Like Fountain overlay -->
   <div class="like-fountain">
-    <iframe
-      src="https://tikfinity.zerody.one/widget/likefountain?cid=615689"
-      width="100%" height="100%" frameborder="0" allowfullscreen>
-    </iframe>
+    <iframe src="https://tikfinity.zerody.one/widget/likefountain?cid=615689" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
   </div>
 
   <script>
