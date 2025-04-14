@@ -18,11 +18,10 @@
       position: relative;
     }
 
-    /* 🎥 Fondo de video YouTube */
+    /* 🎥 Fondo YouTube */
     .video-fondo {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 100vw;
       height: 100vh;
       z-index: -2;
@@ -57,9 +56,21 @@
     .mitad-derecha {
       width: 50%;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 0 5%;
+      padding-right: 5%;
+    }
+
+    .numero-dias {
+      font-size: 12rem;
+      font-weight: bold;
+      line-height: 1;
+      margin-bottom: 10px;
+      background: linear-gradient(to right, #ffd700, #ffcc00, #ffdb58, #fff8dc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
     }
 
     .contador {
@@ -73,28 +84,26 @@
     #faltan {
       font-size: 5rem;
       letter-spacing: 2px;
-    }
-
-    #dias {
-      font-size: 6rem;
-    }
-
-    #dias strong {
-      font-size: 9rem;
-      letter-spacing: 3px;
-    }
-
-    #horas {
-      font-size: 4rem;
-      letter-spacing: 2px;
-    }
-
-    .dorado {
       background: linear-gradient(to right, #ffd700, #ffcc00, #ffdb58, #fff8dc);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       font-weight: bold;
       animation: shimmer 4s infinite;
+    }
+
+    #horas {
+      font-size: 4rem;
+      letter-spacing: 2px;
+      background: linear-gradient(to right, #ffd700, #ffcc00, #ffdb58, #fff8dc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: bold;
+      animation: shimmer 4s infinite;
+    }
+
+    #dias-palabra {
+      font-size: 3rem;
+      color: gold;
     }
 
     @keyframes shimmer {
@@ -109,9 +118,8 @@
     }
 
     @media screen and (max-width: 768px) {
+      .numero-dias { font-size: 7rem; }
       #faltan { font-size: 3rem; }
-      #dias { font-size: 4rem; }
-      #dias strong { font-size: 6rem; }
       #horas { font-size: 2rem; }
     }
   </style>
@@ -130,13 +138,14 @@
   <!-- ✨ Partículas -->
   <div id="tsparticles"></div>
 
-  <!-- ⏳ Contador en mitad derecha centrado -->
+  <!-- ⏳ Contador -->
   <div class="contenedor">
     <div class="mitad-derecha">
+      <div class="numero-dias" id="numero-dias">0</div>
       <div class="contador">
-        <div id="faltan" class="dorado">FALTAN</div>
-        <div id="dias" class="dorado"><strong>0</strong> días</div>
-        <div id="horas" class="dorado">00:00:00</div>
+        <div id="dias-palabra">días</div>
+        <div id="faltan">FALTAN</div>
+        <div id="horas">00:00:00</div>
       </div>
     </div>
   </div>
@@ -149,7 +158,9 @@
       const diferencia = fechaLimite - ahoraFecha;
 
       if (diferencia <= 0) {
-        document.getElementById("dias").innerHTML = "¡El evento ha comenzado!";
+        document.getElementById("numero-dias").innerText = "0";
+        document.getElementById("dias-palabra").innerText = "¡El evento ha comenzado!";
+        document.getElementById("faltan").innerText = "";
         document.getElementById("horas").innerText = "";
         return;
       }
@@ -163,7 +174,7 @@
       const m = String(minutos).padStart(2, '0');
       const s = String(segundos).padStart(2, '0');
 
-      document.getElementById("dias").innerHTML = `<strong>${dias}</strong> días`;
+      document.getElementById("numero-dias").innerText = dias;
       document.getElementById("horas").innerText = `${h}:${m}:${s}`;
     }
 
