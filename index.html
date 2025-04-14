@@ -18,7 +18,6 @@
       position: relative;
     }
 
-    /* Fondo de video YouTube */
     .video-fondo {
       position: absolute;
       top: 0; left: 0;
@@ -31,7 +30,7 @@
 
     .video-fondo iframe {
       width: 100vw;
-      height: 56.25vw; /* Proporción 16:9 */
+      height: 56.25vw;
       min-height: 100vh;
       min-width: 177.77vh;
       position: absolute;
@@ -53,17 +52,17 @@
       width: 100%;
     }
 
-    .mitad-derecha {
+    .mitad-izquierda {
       width: 50%;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: flex-end;
-      padding-right: 5%;
+      align-items: flex-start;
+      padding-left: 5%;
     }
 
     .contador {
-      text-align: right;
+      text-align: left;
       z-index: 1;
       color: gold;
       text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
@@ -75,15 +74,22 @@
     }
 
     #faltan {
-      font-size: 4rem;
+      font-size: 5rem;
+      letter-spacing: 2px;
     }
 
     #dias {
-      font-size: 8rem;
+      font-size: 6rem;
+    }
+
+    #dias strong {
+      font-size: 9rem;
+      letter-spacing: 3px;
     }
 
     #horas {
-      font-size: 2.5rem;
+      font-size: 4rem;
+      letter-spacing: 2px;
     }
 
     .dorado {
@@ -106,15 +112,16 @@
     }
 
     @media screen and (max-width: 768px) {
-      #faltan { font-size: 2.5rem; }
-      #dias { font-size: 5rem; }
-      #horas { font-size: 1.5rem; }
+      #faltan { font-size: 3rem; }
+      #dias { font-size: 4rem; }
+      #dias strong { font-size: 6rem; }
+      #horas { font-size: 2rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- 🎥 Video de fondo de YouTube -->
+  <!-- 🎥 Video de fondo YouTube -->
   <div class="video-fondo">
     <iframe src="https://www.youtube.com/embed/Ag4ERC-DvhY?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=Ag4ERC-DvhY&modestbranding=1"
       frameborder="0"
@@ -123,16 +130,16 @@
     </iframe>
   </div>
 
-  <!-- ✨ Partículas doradas -->
+  <!-- ✨ Partículas -->
   <div id="tsparticles"></div>
 
-  <!-- Contador -->
+  <!-- ⏳ Contador en mitad izquierda -->
   <div class="contenedor">
-    <div class="mitad-derecha">
+    <div class="mitad-izquierda">
       <div class="contador">
-        <div id="faltan" class="dorado">Faltan</div>
-        <div id="dias" class="dorado">0 días</div>
-        <div id="horas" class="dorado">0 horas, 0 min y 0 seg</div>
+        <div id="faltan" class="dorado">FALTAN</div>
+        <div id="dias" class="dorado"><strong>0</strong> días</div>
+        <div id="horas" class="dorado">00:00:00</div>
       </div>
     </div>
   </div>
@@ -145,7 +152,7 @@
       const diferencia = fechaLimite - ahoraFecha;
 
       if (diferencia <= 0) {
-        document.getElementById("dias").innerText = "¡El evento ha comenzado!";
+        document.getElementById("dias").innerHTML = "¡El evento ha comenzado!";
         document.getElementById("horas").innerText = "";
         return;
       }
@@ -155,8 +162,12 @@
       const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
       const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
 
-      document.getElementById("dias").innerText = `${dias} días`;
-      document.getElementById("horas").innerText = `${horas} horas, ${minutos} min y ${segundos} seg`;
+      const h = String(horas).padStart(2, '0');
+      const m = String(minutos).padStart(2, '0');
+      const s = String(segundos).padStart(2, '0');
+
+      document.getElementById("dias").innerHTML = `<strong>${dias}</strong> días`;
+      document.getElementById("horas").innerText = `${h}:${m}:${s}`;
     }
 
     setInterval(actualizarContador, 1000);
