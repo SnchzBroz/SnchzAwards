@@ -9,27 +9,52 @@
 
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    html,body{height:100%;width:100%;font-family:'Playfair Display',serif;background:#000;overflow:hidden;position:relative}
+    html,body{height:100%;width:100%;font-family:'Playfair Display',serif;background:#000;overflow:hidden;position:relative}
 
-    /* 🎥 video de fondo */
-    .video-fondo{position:fixed;inset:0;width:100vw;height:100vh;z-index:-2;pointer-events:none;overflow:hidden}
-    .video-fondo iframe{position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-width:177.77vh;min-height:100vh;transform:translate(-50%,-50%)}
+    /* 🎥 video de fondo (archivo local) */
+    .video-fondo{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:-2;
+      overflow:hidden;
+      pointer-events:none;
+    }
+    .video-fondo video{
+      width:100%;
+      height:100%;
+      object-fit:cover;   /* llena la pantalla manteniendo proporción */
+    }
 
     /* ✨ partículas */
     #tsparticles{position:absolute;inset:0;z-index:-1}
 
     /* ⏳ contador a la derecha */
-    .contenedor{display:flex;justify-content:flex-end;align-items:center;height:100%;width:100%;padding-right:5%}
-    .lado-derecho{width:50%;display:flex;flex-direction:column;align-items:center;gap:.5rem;text-align:center;animation:fadeIn 2s ease-out forwards;color:gold}
+    .contenedor{
+      display:flex;justify-content:flex-end;align-items:center;
+      height:100%;width:100%;padding-right:5%;
+    }
+    .lado-derecho{
+      width:50%;
+      display:flex;flex-direction:column;align-items:center;
+      gap:.5rem;text-align:center;animation:fadeIn 2s ease-out forwards;
+      color:gold;
+    }
 
-    /* estilos texto */
+    /* texto */
     #faltan,#dias-palabra,#horas{
       background:linear-gradient(to right,#ffd700,#ffcc00,#ffdb58,#fff8dc);
       -webkit-background-clip:text;-webkit-text-fill-color:transparent;
       font-weight:700;letter-spacing:2px;animation:shimmer 4s infinite
     }
     #faltan{font-size:5rem}
-    #numero-dias{font-size:12rem;font-weight:700;line-height:1;background:linear-gradient(to right,#ffd700,#ffcc00,#ffdb58,#fff8dc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,.8)}
+    #numero-dias{
+      font-size:12rem;font-weight:700;line-height:1;
+      background:linear-gradient(to right,#ffd700,#ffcc00,#ffdb58,#fff8dc);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      text-shadow:0 0 30px rgba(255,215,0,.8)
+    }
     #dias-palabra{font-size:3rem}
     #horas{font-size:4rem;text-shadow:0 0 10px rgba(255,215,0,.8)}
 
@@ -48,14 +73,9 @@
 </head>
 <body>
 
-  <!-- 🎥 fondo de video (cambia el ID por un video embeddable) -->
+  <!-- 🎥 fondo de video local -->
   <div class="video-fondo">
-    <iframe
-      src="https://www.youtube.com/embed/Ag4ERC-DvhY?autoplay=1&mute=1&controls=0&loop=1&playlist=Ag4ERC-DvhY&modestbranding=1&showinfo=0&rel=0&playsinline=1"
-      frameborder="0"
-      allow="autoplay; encrypted-media"
-      title="Video de fondo">
-    </iframe>
+    <video src="video2.webm" autoplay muted loop playsinline></video>
   </div>
 
   <!-- ✨ partículas -->
@@ -72,6 +92,7 @@
   </div>
 
   <script>
+    /* contador */
     function actualizarContador(){
       const ahora = new Date().toLocaleString("en-US",{timeZone:"America/Mexico_City"});
       const fechaLimite = new Date("2025-04-26T20:00:00-06:00");
@@ -95,6 +116,7 @@
     }
     setInterval(actualizarContador,1000);actualizarContador();
 
+    /* partículas */
     tsParticles.load("tsparticles",{
       fullScreen:{enable:false},
       particles:{number:{value:60},color:{value:"#ffd700"},shape:{type:"circle"},opacity:{value:0.8},size:{value:3},move:{enable:true,speed:0.5,direction:"top",outModes:"out"}},
