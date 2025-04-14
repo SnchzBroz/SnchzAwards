@@ -16,7 +16,7 @@
       position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none
     }
     .video-fondo video{
-      width:100%;height:100%;object-fit:cover
+      width:100%;height:100%;object-fit:cover   /* llena la pantalla manteniendo proporción */
     }
 
     /* ✨ partículas */
@@ -54,7 +54,7 @@
 
     /* widget Like Fountain */
     .like-fountain{
-      position:fixed;inset:0;z-index:100;pointer-events:none   /* sobre todo y sin bloquear clics */
+      position:fixed;inset:0;z-index:100;pointer-events:none
     }
 
     /* responsive */
@@ -68,11 +68,9 @@
 </head>
 <body>
 
-  <!-- 🎥 video de fondo local -->
+  <!-- 🎥 fondo de video local -->
   <div class="video-fondo">
-    <!-- Usa ruta relativa si el HTML y el video están juntos; si lo sirves desde GitHub Pages en otro directorio,
-         cámbialo a /ruta/video2.webm o al raw.githubusercontent URL. -->
-    <video src="./video2.webm" autoplay muted loop playsinline></video>
+    <video src="./fondo3.mp4" autoplay muted loop playsinline></video>
   </div>
 
   <!-- ✨ partículas -->
@@ -88,7 +86,7 @@
     </div>
   </div>
 
-  <!-- 💧 Like Fountain overlay (transparente) -->
+  <!-- 💧 Like Fountain overlay -->
   <div class="like-fountain">
     <iframe
       src="https://tikfinity.zerody.one/widget/likefountain?cid=615689"
