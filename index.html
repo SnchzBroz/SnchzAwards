@@ -12,12 +12,10 @@
     html,body{height:100%;width:100%;font-family:'Playfair Display',serif;background:#000;overflow:hidden;position:relative}
 
     /* 🎥 video de fondo */
-    .video-fondo{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+    .video-fondo{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
     .video-fondo video{
-      position:absolute;top:50%;left:50%;
-      transform:translate(-50%,-50%);
-      min-width:100%;min-height:100%;
-      width:auto;height:auto;
+      width:100%;height:100%;
+      object-fit:cover;             /* llena la pantalla sin distorsión */
     }
 
     /* ✨ partículas */
@@ -58,9 +56,12 @@
 
   <!-- 🎥 fondo de video local -->
   <div class="video-fondo">
-    <!-- Ruta local absoluta en formato file:// -->
-    <video autoplay muted loop playsinline preload="auto"
-           src="file:///C:/Users/osanchezfigu/Downloads/fondo.mp4"></video>
+    <video autoplay muted loop playsinline preload="auto">
+      <!-- Usa ruta relativa; ajusta si el mp4 está en otra carpeta -->
+      <source src="fondo.mp4" type="video/mp4">
+      <!-- Fallback para navegadores que no soporten video -->
+      Tu navegador no soporta video HTML5.
+    </video>
   </div>
 
   <!-- ✨ partículas -->
@@ -78,7 +79,8 @@
 
   <!-- 💧 Like Fountain overlay -->
   <div class="like-fountain">
-    <iframe src="https://tikfinity.zerody.one/widget/likefountain?cid=615689" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+    <iframe src="https://tikfinity.zerody.one/widget/likefountain?cid=615689"
+            width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
   </div>
 
   <script>
@@ -117,3 +119,4 @@
 
 </body>
 </html>
+
