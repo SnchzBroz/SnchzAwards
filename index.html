@@ -30,6 +30,14 @@
       font-weight:700;
       letter-spacing:2px;
       animation:brillo 4s infinite;
+
+      /* ➡️ contorno negro */
+      -webkit-text-stroke:2px #000;          /* WebKit */
+      text-shadow:
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000;                    /* fallback para otros navegadores */
     }
 
     /* tamaños responsivos con clamp() */
@@ -40,9 +48,9 @@
 
     /* animación de brillo */
     @keyframes brillo{
-      0%{text-shadow:0 0 10px #fff8dc}
-      50%{text-shadow:0 0 20px #ffd700}
-      100%{text-shadow:0 0 10px #fff8dc}
+      0%{text-shadow:0 0 10px #fff8dc, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000}
+      50%{text-shadow:0 0 20px #ffd700, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000}
+      100%{text-shadow:0 0 10px #fff8dc, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000}
     }
   </style>
 </head>
