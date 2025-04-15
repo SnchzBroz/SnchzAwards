@@ -11,12 +11,10 @@
     *{margin:0;padding:0;box-sizing:border-box}
     html,body{height:100%;width:100%;font-family:'Playfair Display',serif;background:#000;overflow:hidden;position:relative}
 
-    /* 🎥 video de fondo */
-    .video-fondo{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
-    .video-fondo video{
-      width:100%;height:100%;
-      object-fit:cover;             /* llena la pantalla sin distorsión */
-    }
+    /* 🎥 YouTube video de fondo */
+    .video-fondo{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+    .video-fondo iframe,
+    .video-fondo #player{position:absolute;top:0;left:0;width:100%;height:100%}
 
     /* ✨ partículas */
     #tsparticles{position:absolute;inset:0;z-index:-1}
@@ -54,14 +52,10 @@
 </head>
 <body>
 
-  <!-- 🎥 fondo de video local -->
+  <!-- 🎥 fondo de YouTube -->
   <div class="video-fondo">
-    <video autoplay muted loop playsinline preload="auto">
-      <!-- Usa ruta relativa; ajusta si el mp4 está en otra carpeta -->
-      <source src="fondo3.mp4" type="video/mp4">
-      <!-- Fallback para navegadores que no soporten video -->
-      Tu navegador no soporta video HTML5.
-    </video>
+    <!-- YouTube Player API will inject the iframe inside this div -->
+    <div id="player"></div>
   </div>
 
   <!-- ✨ partículas -->
@@ -83,7 +77,31 @@
             width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
   </div>
 
+  <!-- YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
+    let player;
+    function onYouTubeIframeAPIReady(){
+      player = new YT.Player('player',{
+        videoId:'Ag4ERC-DvhY',
+        playerVars:{
+          autoplay:1,        // empieza solo
+          controls:0,        // sin controles
+          mute:1,            // necesario para autoplay
+          loop:1,
+          playlist:'Ag4ERC-DvhY', // requerido para loop
+          modestbranding:1,
+          rel:0,
+          playsinline:1
+        },
+        events:{
+          onReady:e=>{
+            e.target.playVideo(); // fuerza el arranque
+          }
+        }
+      });
+    }
+
     /* contador */
     function actualizarContador(){
       const ahora = new Date().toLocaleString("en-US",{timeZone:"America/Mexico_City"});
@@ -119,4 +137,3 @@
 
 </body>
 </html>
-
