@@ -5,103 +5,57 @@
   <title>Cuenta Regresiva Gala</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.1/tsparticles.bundle.min.js" defer></script>
 
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    html,body{height:100%;width:100%;font-family:'Playfair Display',serif;background:#000;overflow:hidden;position:relative}
 
-    /* 🎥 YouTube video de fondo */
-    .video-fondo{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
-    .video-fondo iframe,
-    .video-fondo #player{position:absolute;top:0;left:0;width:100%;height:100%}
-
-    /* ✨ partículas */
-    #tsparticles{position:absolute;inset:0;z-index:-1}
-
-    /* ⏳ contador a la derecha */
-    .contenedor{display:flex;justify-content:flex-end;align-items:center;height:100%;width:100%;padding-right:5%}
-    .lado-derecho{width:50%;display:flex;flex-direction:column;align-items:center;gap:.5rem;text-align:center;animation:fadeIn 2s ease-out forwards;color:gold}
-
-    /* texto */
-    #faltan,#dias-palabra,#horas{
-      background:linear-gradient(to right,#ffd700,#ffcc00,#ffdb58,#fff8dc);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-      font-weight:700;letter-spacing:2px;animation:shimmer 4s infinite
+    /* 🔲 Lienzo base (verde chroma key) */
+    html,body{
+      height:100%;
+      width:100%;
+      background:#00FF00;        /* verde puro para croma */
+      font-family:'Playfair Display',serif;
+      display:flex;              /* centra todo */
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;
+      text-align:center;
     }
-    #faltan{font-size:5rem}
-    #numero-dias{font-size:12rem;font-weight:700;line-height:1;background:linear-gradient(to right,#ffd700,#ffcc00,#ffdb58,#fff8dc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,.8)}
-    #dias-palabra{font-size:3rem}
-    #horas{font-size:4rem;text-shadow:0 0 10px rgba(255,215,0,.8)}
 
-    /* animaciones */
-    @keyframes shimmer{0%{text-shadow:0 0 10px #fff8dc}50%{text-shadow:0 0 20px #ffd700}100%{text-shadow:0 0 10px #fff8dc}}
-    @keyframes fadeIn{0%{opacity:0;transform:translateY(-60%)}100%{opacity:1;transform:translateY(0)}}
+    /* ⏳ texto del contador */
+    #faltan,#numero-dias,#dias-palabra,#horas{
+      background:linear-gradient(to right,#ffd700,#ffcc00,#ffdb58,#fff8dc);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      font-weight:700;
+      letter-spacing:2px;
+      animation:brillo 4s infinite;
+    }
 
-    /* widget Like Fountain */
-    .like-fountain{position:fixed;inset:0;z-index:100;pointer-events:none}
+    /* tamaños responsivos con clamp() */
+    #faltan{font-size:clamp(2rem,5vw,6rem)}
+    #numero-dias{font-size:clamp(4rem,20vw,14rem);line-height:1}
+    #dias-palabra{font-size:clamp(1.5rem,4vw,4rem)}
+    #horas{font-size:clamp(2rem,6vw,5rem)}
 
-    /* responsive */
-    @media(max-width:768px){
-      #numero-dias{font-size:7rem}
-      #faltan{font-size:3rem}
-      #horas{font-size:2rem}
-      .lado-derecho{width:100%;padding-right:0}
+    /* animación de brillo */
+    @keyframes brillo{
+      0%{text-shadow:0 0 10px #fff8dc}
+      50%{text-shadow:0 0 20px #ffd700}
+      100%{text-shadow:0 0 10px #fff8dc}
     }
   </style>
 </head>
 <body>
 
-  <!-- 🎥 fondo de YouTube -->
-  <div class="video-fondo">
-    <!-- YouTube Player API will inject the iframe inside this div -->
-    <div id="player"></div>
+  <div>
+    <span id="faltan">FALTAN</span><br>
+    <span id="numero-dias">0</span><br>
+    <span id="dias-palabra">DÍAS</span><br>
+    <span id="horas">00:00:00</span>
   </div>
 
-  <!-- ✨ partículas -->
-  <div id="tsparticles"></div>
-
-  <!-- ⏳ contador -->
-  <div class="contenedor">
-    <div class="lado-derecho">
-      <span id="faltan">FALTAN</span>
-      <span id="numero-dias">0</span>
-      <span id="dias-palabra">DÍAS</span>
-      <span id="horas">00:00:00</span>
-    </div>
-  </div>
-
-  <!-- 💧 Like Fountain overlay -->
-  <div class="like-fountain">
-    <iframe src="https://tikfinity.zerody.one/widget/likefountain?cid=615689"
-            width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
-  </div>
-
-  <!-- YouTube IFrame API -->
-  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
-    let player;
-    function onYouTubeIframeAPIReady(){
-      player = new YT.Player('player',{
-        videoId:'Ag4ERC-DvhY',
-        playerVars:{
-          autoplay:1,        // empieza solo
-          controls:0,        // sin controles
-          mute:1,            // necesario para autoplay
-          loop:1,
-          playlist:'Ag4ERC-DvhY', // requerido para loop
-          modestbranding:1,
-          rel:0,
-          playsinline:1
-        },
-        events:{
-          onReady:e=>{
-            e.target.playVideo(); // fuerza el arranque
-          }
-        }
-      });
-    }
-
     /* contador */
     function actualizarContador(){
       const ahora = new Date().toLocaleString("en-US",{timeZone:"America/Mexico_City"});
@@ -124,15 +78,8 @@
       document.getElementById("horas").textContent=
         `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
     }
-    setInterval(actualizarContador,1000);actualizarContador();
-
-    /* partículas */
-    tsParticles.load("tsparticles",{
-      fullScreen:{enable:false},
-      particles:{number:{value:60},color:{value:"#ffd700"},shape:{type:"circle"},opacity:{value:0.8},size:{value:3},move:{enable:true,speed:0.5,direction:"top",outModes:"out"}},
-      interactivity:{events:{onHover:{enable:true,mode:"repulse"},resize:true},modes:{repulse:{distance:100,duration:0.4}}},
-      background:{color:"transparent"}
-    });
+    setInterval(actualizarContador,1000);
+    actualizarContador();
   </script>
 
 </body>
